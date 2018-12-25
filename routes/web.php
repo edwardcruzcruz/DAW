@@ -27,4 +27,15 @@ Route::get('/', function () {
 
     dd($path);
 });*/
-Route::post('/','Controller@hacer');
+Route::get('servicios', function () {
+    return view('pages/servicios');
+});
+Route::get('portafolio', function () {
+    return view('pages/portafolio');
+});
+Route::get('galeria', function () {
+    return view('pages/galeria');
+});
+Route::get('servicios', function () {
+    return view('pages/contacto');
+});

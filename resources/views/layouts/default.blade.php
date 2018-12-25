@@ -20,7 +20,7 @@
     @include('includes.footer')
 
 </footer>
-
+@yield('content_js')
 </body>
 
 </html>
