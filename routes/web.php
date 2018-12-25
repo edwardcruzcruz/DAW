@@ -36,6 +36,6 @@ Route::get('portafolio', function () {
 Route::get('galeria', function () {
     return view('pages/galeria');
 });
-Route::get('servicios', function () {
+Route::get('contacto', function () {
     return view('pages/contacto');
 });
