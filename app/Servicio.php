@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Servicio extends Model
 {
 	//
+	public $timestamps = true;
+	protected $table = 'servicio';
 }
