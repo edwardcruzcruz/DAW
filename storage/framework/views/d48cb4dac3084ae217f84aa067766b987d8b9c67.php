@@ -10,23 +10,23 @@
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
-				<a class="nav-link" href="inicio2.html">Inicio</a>
+				<a class="nav-link" href="<?php echo e(URL::to('home')); ?>">Inicio</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="servicios.html">Servicios</a>
+				<a class="nav-link" href="<?php echo e(URL::to('servicios')); ?>">Servicios</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="portafolio.html">Portafolio</a>
+				<a class="nav-link" href="<?php echo e(URL::to('portafolio')); ?>">Portafolio</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="galeria.html">Galeria</a>
+				<a class="nav-link" href="<?php echo e(URL::to('galeria')); ?>">Galeria</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="contacto.html">Contacto</a>
+				<a class="nav-link" href="<?php echo e(URL::to('contacto')); ?>">Contacto</a>
 			</li>
 			
 		</ul>

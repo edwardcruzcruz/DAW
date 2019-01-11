@@ -27,15 +27,8 @@ Route::get('/', function () {
 
     dd($path);
 });*/
-Route::get('servicios', function () {
-    return view('pages/servicios');
-});
-Route::get('portafolio', function () {
-    return view('pages/portafolio');
-});
-Route::get('galeria', function () {
-    return view('pages/galeria');
-});
-Route::get('contacto', function () {
-    return view('pages/contacto');
-});
+Route::get('servicios', 'Controller@servicios');
+Route::get('portafolio', 'Controller@portafolio');
+Route::get('galeria', 'Controller@galeria');
+Route::get('contacto', 'Controller@contacto');
+Route::get('home', 'Controller@home');

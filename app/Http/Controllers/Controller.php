@@ -12,8 +12,24 @@ use App\Http\Controllers\Controller;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function hacer(Request $request)
+    
+    /*public function hacer(Request $request)
     {
 	return view('pages/presentacion',['informacion'=>[$request->input('nombre'),$request->input('apellido'),$request->input('email')]]);
+    }*/
+     public function servicios(){
+	return view('pages/servicios');
+    }
+    public function portafolio(){
+	return view('pages/portafolio');
+    }
+    public function galeria(){
+	return view('pages/galeria');
+    }
+    public function contacto(){
+	return view('pages/contacto');
+    }
+    public function home(){
+	return view('pages/home');
     }
 }
