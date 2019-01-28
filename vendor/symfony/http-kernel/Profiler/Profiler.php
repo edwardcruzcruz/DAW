@@ -11,20 +11,19 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Symfony\Contracts\Service\ResetInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Profiler.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Profiler implements ResetInterface
+class Profiler
 {
     private $storage;
 
@@ -34,14 +33,16 @@ class Profiler implements ResetInterface
     private $collectors = array();
 
     private $logger;
-    private $initiallyEnabled = true;
+
+    /**
+     * @var bool
+     */
     private $enabled = true;
 
-    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, bool $enable = true)
+    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null)
     {
         $this->storage = $storage;
         $this->logger = $logger;
-        $this->initiallyEnabled = $this->enabled = $enable;
     }
 
     /**
@@ -101,7 +102,7 @@ class Profiler implements ResetInterface
         }
 
         if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => \get_class($this->storage)));
+            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => get_class($this->storage)));
         }
 
         return $ret;
@@ -116,23 +117,52 @@ class Profiler implements ResetInterface
     }
 
     /**
+     * Exports the current profiler data.
+     *
+     * @return string The exported data
+     */
+    public function export(Profile $profile)
+    {
+        return base64_encode(serialize($profile));
+    }
+
+    /**
+     * Imports data into the profiler storage.
+     *
+     * @param string $data A data string as exported by the export() method
+     *
+     * @return Profile|false A Profile instance
+     */
+    public function import($data)
+    {
+        $profile = unserialize(base64_decode($data));
+
+        if ($this->storage->read($profile->getToken())) {
+            return false;
+        }
+
+        $this->saveProfile($profile);
+
+        return $profile;
+    }
+
+    /**
      * Finds profiler tokens for the given criteria.
      *
-     * @param string $ip         The IP
-     * @param string $url        The URL
-     * @param string $limit      The maximum number of tokens to return
-     * @param string $method     The request method
-     * @param string $start      The start date to search from
-     * @param string $end        The end date to search to
-     * @param string $statusCode The request status code
+     * @param string $ip     The IP
+     * @param string $url    The URL
+     * @param string $limit  The maximum number of tokens to return
+     * @param string $method The request method
+     * @param string $start  The start date to search from
+     * @param string $end    The end date to search to
      *
      * @return array An array of tokens
      *
      * @see http://php.net/manual/en/datetime.formats.php for the supported date/time formats
      */
-    public function find($ip, $url, $limit, $method, $start, $end, $statusCode = null)
+    public function find($ip, $url, $limit, $method, $start, $end)
     {
-        return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end), $statusCode);
+        return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end));
     }
 
     /**
@@ -157,10 +187,6 @@ class Profiler implements ResetInterface
             $profile->setIp('Unknown');
         }
 
-        if ($prevToken = $response->headers->get('X-Debug-Token')) {
-            $response->headers->set('X-Previous-Debug-Token', $prevToken);
-        }
-
         $response->headers->set('X-Debug-Token', $profile->getToken());
 
         foreach ($this->collectors as $collector) {
@@ -171,14 +197,6 @@ class Profiler implements ResetInterface
         }
 
         return $profile;
-    }
-
-    public function reset()
-    {
-        foreach ($this->collectors as $collector) {
-            $collector->reset();
-        }
-        $this->enabled = $this->initiallyEnabled;
     }
 
     /**

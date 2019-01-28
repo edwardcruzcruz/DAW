@@ -11,13 +11,10 @@
 
 namespace Symfony\Component\Console\Formatter;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Contracts\Service\ResetInterface;
-
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class OutputFormatterStyleStack implements ResetInterface
+class OutputFormatterStyleStack
 {
     /**
      * @var OutputFormatterStyleInterface[]
@@ -53,7 +50,7 @@ class OutputFormatterStyleStack implements ResetInterface
      *
      * @return OutputFormatterStyleInterface
      *
-     * @throws InvalidArgumentException When style tags incorrectly nested
+     * @throws \InvalidArgumentException When style tags incorrectly nested
      */
     public function pop(OutputFormatterStyleInterface $style = null)
     {
@@ -67,13 +64,13 @@ class OutputFormatterStyleStack implements ResetInterface
 
         foreach (array_reverse($this->styles, true) as $index => $stackedStyle) {
             if ($style->apply('') === $stackedStyle->apply('')) {
-                $this->styles = \array_slice($this->styles, 0, $index);
+                $this->styles = array_slice($this->styles, 0, $index);
 
                 return $stackedStyle;
             }
         }
 
-        throw new InvalidArgumentException('Incorrectly nested style tag found.');
+        throw new \InvalidArgumentException('Incorrectly nested style tag found.');
     }
 
     /**
@@ -87,7 +84,7 @@ class OutputFormatterStyleStack implements ResetInterface
             return $this->emptyStyle;
         }
 
-        return $this->styles[\count($this->styles) - 1];
+        return $this->styles[count($this->styles) - 1];
     }
 
     /**

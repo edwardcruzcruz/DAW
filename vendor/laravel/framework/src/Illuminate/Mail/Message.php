@@ -4,28 +4,15 @@ namespace Illuminate\Mail;
 
 use Swift_Image;
 use Swift_Attachment;
-use Illuminate\Support\Traits\ForwardsCalls;
 
-/**
- * @mixin \Swift_Message
- */
 class Message
 {
-    use ForwardsCalls;
-
     /**
      * The Swift Message instance.
      *
      * @var \Swift_Message
      */
     protected $swift;
-
-    /**
-     * CIDs of files embedded in the message.
-     *
-     * @var array
-     */
-    protected $embeddedFiles = [];
 
     /**
      * Create a new message instance.
@@ -41,7 +28,7 @@ class Message
     /**
      * Add a "from" address to the message.
      *
-     * @param  string|array  $address
+     * @param  string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -55,7 +42,7 @@ class Message
     /**
      * Set the "sender" of the message.
      *
-     * @param  string|array  $address
+     * @param  string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -90,9 +77,7 @@ class Message
     public function to($address, $name = null, $override = false)
     {
         if ($override) {
-            $this->swift->setTo($address, $name);
-
-            return $this;
+            return $this->swift->setTo($address, $name);
         }
 
         return $this->addAddresses($address, $name, 'To');
@@ -103,17 +88,10 @@ class Message
      *
      * @param  string|array  $address
      * @param  string|null  $name
-     * @param  bool  $override
      * @return $this
      */
-    public function cc($address, $name = null, $override = false)
+    public function cc($address, $name = null)
     {
-        if ($override) {
-            $this->swift->setCc($address, $name);
-
-            return $this;
-        }
-
         return $this->addAddresses($address, $name, 'Cc');
     }
 
@@ -122,24 +100,17 @@ class Message
      *
      * @param  string|array  $address
      * @param  string|null  $name
-     * @param  bool  $override
      * @return $this
      */
-    public function bcc($address, $name = null, $override = false)
+    public function bcc($address, $name = null)
     {
-        if ($override) {
-            $this->swift->setBcc($address, $name);
-
-            return $this;
-        }
-
         return $this->addAddresses($address, $name, 'Bcc');
     }
 
     /**
      * Add a reply to address to the message.
      *
-     * @param  string|array  $address
+     * @param  string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -211,7 +182,7 @@ class Message
      * Create a Swift Attachment instance.
      *
      * @param  string  $file
-     * @return \Swift_Mime_Attachment
+     * @return \Swift_Attachment
      */
     protected function createAttachmentFromPath($file)
     {
@@ -242,7 +213,7 @@ class Message
      */
     protected function createAttachmentFromData($data, $name)
     {
-        return new Swift_Attachment($data, $name);
+        return Swift_Attachment::newInstance($data, $name);
     }
 
     /**
@@ -253,13 +224,7 @@ class Message
      */
     public function embed($file)
     {
-        if (isset($this->embeddedFiles[$file])) {
-            return $this->embeddedFiles[$file];
-        }
-
-        return $this->embeddedFiles[$file] = $this->swift->embed(
-            Swift_Image::fromPath($file)
-        );
+        return $this->swift->embed(Swift_Image::fromPath($file));
     }
 
     /**
@@ -272,7 +237,7 @@ class Message
      */
     public function embedData($data, $name, $contentType = null)
     {
-        $image = new Swift_Image($data, $name, $contentType);
+        $image = Swift_Image::newInstance($data, $name, $contentType);
 
         return $this->swift->embed($image);
     }
@@ -324,6 +289,8 @@ class Message
      */
     public function __call($method, $parameters)
     {
-        return $this->forwardCallTo($this->swift, $method, $parameters);
+        $callable = [$this->swift, $method];
+
+        return call_user_func_array($callable, $parameters);
     }
 }

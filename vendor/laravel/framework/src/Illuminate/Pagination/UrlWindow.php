@@ -28,22 +28,22 @@ class UrlWindow
      * Create a new URL window instance.
      *
      * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator  $paginator
+     * @param  int  $onEachSide
      * @return array
      */
-    public static function make(PaginatorContract $paginator)
+    public static function make(PaginatorContract $paginator, $onEachSide = 3)
     {
-        return (new static($paginator))->get();
+        return (new static($paginator))->get($onEachSide);
     }
 
     /**
      * Get the window of URLs to be shown.
      *
+     * @param  int  $onEachSide
      * @return array
      */
-    public function get()
+    public function get($onEachSide = 3)
     {
-        $onEachSide = $this->paginator->onEachSide;
-
         if ($this->paginator->lastPage() < ($onEachSide * 2) + 6) {
             return $this->getSmallSlider();
         }
@@ -76,7 +76,11 @@ class UrlWindow
         $window = $onEachSide * 2;
 
         if (! $this->hasPages()) {
-            return ['first' => null, 'slider' => null, 'last' => null];
+            return [
+                'first'  => null,
+                'slider' => null,
+                'last'   => null,
+            ];
         }
 
         // If the current page is very close to the beginning of the page range, we will
@@ -108,9 +112,9 @@ class UrlWindow
     protected function getSliderTooCloseToBeginning($window)
     {
         return [
-            'first' => $this->paginator->getUrlRange(1, $window + 2),
+            'first'  => $this->paginator->getUrlRange(1, $window + 2),
             'slider' => null,
-            'last' => $this->getFinish(),
+            'last'   => $this->getFinish(),
         ];
     }
 
@@ -128,9 +132,9 @@ class UrlWindow
         );
 
         return [
-            'first' => $this->getStart(),
+            'first'  => $this->getStart(),
             'slider' => null,
-            'last' => $last,
+            'last'   => $last,
         ];
     }
 

@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Console\Question;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
-
 /**
  * Represents a choice question.
  *
@@ -30,7 +28,7 @@ class ChoiceQuestion extends Question
      * @param array  $choices  The list of available choices
      * @param mixed  $default  The default answer to return
      */
-    public function __construct(string $question, array $choices, $default = null)
+    public function __construct($question, array $choices, $default = null)
     {
         if (!$choices) {
             throw new \LogicException('Choice question must have at least 1 choice available.');
@@ -121,7 +119,12 @@ class ChoiceQuestion extends Question
         return $this;
     }
 
-    private function getDefaultValidator(): callable
+    /**
+     * Returns the default answer validator.
+     *
+     * @return callable
+     */
+    private function getDefaultValidator()
     {
         $choices = $this->choices;
         $errorMessage = $this->errorMessage;
@@ -135,7 +138,7 @@ class ChoiceQuestion extends Question
             if ($multiselect) {
                 // Check for a separated comma values
                 if (!preg_match('/^[^,]+(?:,[^,]+)*$/', $selectedChoices, $matches)) {
-                    throw new InvalidArgumentException(sprintf($errorMessage, $selected));
+                    throw new \InvalidArgumentException(sprintf($errorMessage, $selected));
                 }
                 $selectedChoices = explode(',', $selectedChoices);
             } else {
@@ -151,8 +154,8 @@ class ChoiceQuestion extends Question
                     }
                 }
 
-                if (\count($results) > 1) {
-                    throw new InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of %s.', implode(' or ', $results)));
+                if (count($results) > 1) {
+                    throw new \InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of %s.', implode(' or ', $results)));
                 }
 
                 $result = array_search($value, $choices);
@@ -168,7 +171,7 @@ class ChoiceQuestion extends Question
                 }
 
                 if (false === $result) {
-                    throw new InvalidArgumentException(sprintf($errorMessage, $value));
+                    throw new \InvalidArgumentException(sprintf($errorMessage, $value));
                 }
 
                 $multiselectChoices[] = (string) $result;

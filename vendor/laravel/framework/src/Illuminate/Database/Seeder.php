@@ -2,12 +2,10 @@
 
 namespace Illuminate\Database;
 
-use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 
-abstract class Seeder
+class Seeder
 {
     /**
      * The container instance.
@@ -24,36 +22,28 @@ abstract class Seeder
     protected $command;
 
     /**
-     * Seed the given connection from the given path.
+     * Run the database seeds.
      *
-     * @param  array|string  $class
-     * @param  bool  $silent
-     * @return $this
+     * @return void
      */
-    public function call($class, $silent = false)
+    public function run()
     {
-        $classes = Arr::wrap($class);
-
-        foreach ($classes as $class) {
-            if ($silent === false && isset($this->command)) {
-                $this->command->getOutput()->writeln("<info>Seeding:</info> $class");
-            }
-
-            $this->resolve($class)->__invoke();
-        }
-
-        return $this;
+        //
     }
 
     /**
-     * Silently seed the given connection from the given path.
+     * Seed the given connection from the given path.
      *
-     * @param  array|string  $class
+     * @param  string  $class
      * @return void
      */
-    public function callSilent($class)
+    public function call($class)
     {
-        $this->call($class, true);
+        $this->resolve($class)->run();
+
+        if (isset($this->command)) {
+            $this->command->getOutput()->writeln("<info>Seeded:</info> $class");
+        }
     }
 
     /**
@@ -103,23 +93,5 @@ abstract class Seeder
         $this->command = $command;
 
         return $this;
-    }
-
-    /**
-     * Run the database seeds.
-     *
-     * @return dynamic
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __invoke()
-    {
-        if (! method_exists($this, 'run')) {
-            throw new InvalidArgumentException('Method [run] missing from '.get_class($this));
-        }
-
-        return isset($this->container)
-                    ? $this->container->call([$this, 'run'])
-                    : $this->run();
     }
 }

@@ -14,9 +14,6 @@ namespace Symfony\Component\Translation\Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\Interval;
 
-/**
- * @group legacy
- */
 class IntervalTest extends TestCase
 {
     /**
@@ -28,7 +25,7 @@ class IntervalTest extends TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Translation\Exception\InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testTestException()
     {

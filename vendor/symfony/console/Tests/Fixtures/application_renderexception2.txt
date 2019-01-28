@@ -1,7 +1,8 @@
 
                                       
+  [InvalidArgumentException]          
   The "--foo" option does not exist.  
                                       
 
-list [--raw] [--format FORMAT] [--] [<namespace>]
+list [--xml] [--raw] [--format FORMAT] [--] [<namespace>]
 

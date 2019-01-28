@@ -23,11 +23,9 @@ class JsonFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    public function format(MessageCatalogue $messages, $domain = 'messages')
     {
-        $flags = $options['json_encoding'] ?? JSON_PRETTY_PRINT;
-
-        return json_encode($messages->all($domain), $flags);
+        return json_encode($messages->all($domain), defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0);
     }
 
     /**

@@ -28,11 +28,29 @@ class PathFilterIterator extends MultiplePcreFilterIterator
     {
         $filename = $this->current()->getRelativePathname();
 
-        if ('\\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
             $filename = str_replace('\\', '/', $filename);
         }
 
-        return $this->isAccepted($filename);
+        // should at least not match one rule to exclude
+        foreach ($this->noMatchRegexps as $regex) {
+            if (preg_match($regex, $filename)) {
+                return false;
+            }
+        }
+
+        // should at least match one rule
+        $match = true;
+        if ($this->matchRegexps) {
+            $match = false;
+            foreach ($this->matchRegexps as $regex) {
+                if (preg_match($regex, $filename)) {
+                    return true;
+                }
+            }
+        }
+
+        return $match;
     }
 
     /**

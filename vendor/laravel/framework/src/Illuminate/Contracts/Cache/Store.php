@@ -7,45 +7,26 @@ interface Store
     /**
      * Retrieve an item from the cache by key.
      *
-     * @param  string|array  $key
+     * @param  string  $key
      * @return mixed
      */
     public function get($key);
 
     /**
-     * Retrieve multiple items from the cache by key.
-     *
-     * Items not found in the cache will have a null value.
-     *
-     * @param  array  $keys
-     * @return array
-     */
-    public function many(array $keys);
-
-    /**
      * Store an item in the cache for a given number of minutes.
      *
      * @param  string  $key
-     * @param  mixed  $value
-     * @param  float|int  $minutes
+     * @param  mixed   $value
+     * @param  int     $minutes
      * @return void
      */
     public function put($key, $value, $minutes);
 
     /**
-     * Store multiple items in the cache for a given number of minutes.
-     *
-     * @param  array  $values
-     * @param  float|int  $minutes
-     * @return void
-     */
-    public function putMany(array $values, $minutes);
-
-    /**
      * Increment the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed  $value
+     * @param  mixed   $value
      * @return int|bool
      */
     public function increment($key, $value = 1);
@@ -54,7 +35,7 @@ interface Store
      * Decrement the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed  $value
+     * @param  mixed   $value
      * @return int|bool
      */
     public function decrement($key, $value = 1);
@@ -63,7 +44,7 @@ interface Store
      * Store an item in the cache indefinitely.
      *
      * @param  string  $key
-     * @param  mixed  $value
+     * @param  mixed   $value
      * @return void
      */
     public function forever($key, $value);
@@ -79,7 +60,7 @@ interface Store
     /**
      * Remove all items from the cache.
      *
-     * @return bool
+     * @return void
      */
     public function flush();
 

@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('pages/home');
-});
+});*/
 /*Route::post('procesandoimagen', function (Request $request) {
     // cache the file
     $file=$request->file('photo');
@@ -27,8 +27,11 @@ Route::get('/', function () {
 
     dd($path);
 });*/
-Route::get('servicios', 'Controller@servicios');
+/*Route::get('servicios', 'Controller@servicios');
 Route::get('portafolio', 'Controller@portafolio');
 Route::get('galeria', 'Controller@galeria');
 Route::get('contacto', 'Controller@contacto');
-Route::get('home', 'Controller@home');
+Route::get('home', 'Controller@home');*/
+
+//Route::resource('contacto','Controller');
+

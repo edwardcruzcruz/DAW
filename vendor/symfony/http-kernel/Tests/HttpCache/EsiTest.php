@@ -12,9 +12,9 @@
 namespace Symfony\Component\HttpKernel\Tests\HttpCache;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpKernel\HttpCache\Esi;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpCache\Esi;
 
 class EsiTest extends TestCase
 {
@@ -40,10 +40,10 @@ class EsiTest extends TestCase
 
         $request = Request::create('/');
         $esi->addSurrogateCapability($request);
-        $this->assertEquals('symfony="ESI/1.0"', $request->headers->get('Surrogate-Capability'));
+        $this->assertEquals('symfony2="ESI/1.0"', $request->headers->get('Surrogate-Capability'));
 
         $esi->addSurrogateCapability($request);
-        $this->assertEquals('symfony="ESI/1.0", symfony="ESI/1.0"', $request->headers->get('Surrogate-Capability'));
+        $this->assertEquals('symfony2="ESI/1.0", symfony2="ESI/1.0"', $request->headers->get('Surrogate-Capability'));
     }
 
     public function testAddSurrogateControl()
@@ -231,10 +231,10 @@ class EsiTest extends TestCase
               ->method('getRequest')
               ->will($this->returnValue($request))
         ;
-        if (\is_array($response)) {
+        if (is_array($response)) {
             $cache->expects($this->any())
                   ->method('handle')
-                  ->will($this->onConsecutiveCalls(...$response))
+                  ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $response))
             ;
         } else {
             $cache->expects($this->any())

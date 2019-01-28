@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\DependencyInjection;
 
-use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
@@ -23,13 +23,24 @@ use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 class LazyLoadingFragmentHandler extends FragmentHandler
 {
     private $container;
-    private $initialized = array();
+    private $rendererIds = array();
 
-    public function __construct(ContainerInterface $container, RequestStack $requestStack, bool $debug = false)
+    public function __construct(ContainerInterface $container, $debug = false, RequestStack $requestStack = null)
     {
         $this->container = $container;
 
-        parent::__construct($requestStack, array(), $debug);
+        parent::__construct(array(), $debug, $requestStack);
+    }
+
+    /**
+     * Adds a service as a fragment renderer.
+     *
+     * @param string $name     The service name
+     * @param string $renderer The render service id
+     */
+    public function addRendererService($name, $renderer)
+    {
+        $this->rendererIds[$name] = $renderer;
     }
 
     /**
@@ -37,9 +48,10 @@ class LazyLoadingFragmentHandler extends FragmentHandler
      */
     public function render($uri, $renderer = 'inline', array $options = array())
     {
-        if (!isset($this->initialized[$renderer]) && $this->container->has($renderer)) {
-            $this->addRenderer($this->container->get($renderer));
-            $this->initialized[$renderer] = true;
+        if (isset($this->rendererIds[$renderer])) {
+            $this->addRenderer($this->container->get($this->rendererIds[$renderer]));
+
+            unset($this->rendererIds[$renderer]);
         }
 
         return parent::render($uri, $renderer, $options);

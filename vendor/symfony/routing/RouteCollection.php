@@ -63,7 +63,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return \count($this->routes);
+        return count($this->routes);
     }
 
     /**
@@ -126,9 +126,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
             $this->routes[$name] = $route;
         }
 
-        foreach ($collection->getResources() as $resource) {
-            $this->addResource($resource);
-        }
+        $this->resources = array_merge($this->resources, $collection->getResources());
     }
 
     /**
@@ -151,23 +149,6 @@ class RouteCollection implements \IteratorAggregate, \Countable
             $route->addDefaults($defaults);
             $route->addRequirements($requirements);
         }
-    }
-
-    /**
-     * Adds a prefix to the name of all the routes within in the collection.
-     */
-    public function addNamePrefix(string $prefix)
-    {
-        $prefixedRoutes = array();
-
-        foreach ($this->routes as $name => $route) {
-            $prefixedRoutes[$prefix.$name] = $route;
-            if (null !== $name = $route->getDefault('_canonical_route')) {
-                $route->setDefault('_canonical_route', $prefix.$name);
-            }
-        }
-
-        $this->routes = $prefixedRoutes;
     }
 
     /**
@@ -279,19 +260,14 @@ class RouteCollection implements \IteratorAggregate, \Countable
      */
     public function getResources()
     {
-        return array_values($this->resources);
+        return array_unique($this->resources);
     }
 
     /**
-     * Adds a resource for this collection. If the resource already exists
-     * it is not added.
+     * Adds a resource for this collection.
      */
     public function addResource(ResourceInterface $resource)
     {
-        $key = (string) $resource;
-
-        if (!isset($this->resources[$key])) {
-            $this->resources[$key] = $resource;
-        }
+        $this->resources[] = $resource;
     }
 }
