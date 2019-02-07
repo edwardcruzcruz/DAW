@@ -10,7 +10,7 @@ class CreateEventosTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'eventos';
+    public $set_schema_table = 'evento';
 
     /**
      * Run the migrations.
@@ -20,13 +20,11 @@ class CreateEventosTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('idEventos');
-            $table->string('Descripcion', 45)->nullable()->default(null);
-            $table->string('Categoria', 45)->nullable()->default(null);
-            $table->unsignedInteger('idGaleria')->nullable()->default(null);
+            $table->increments('id');
+            $table->string('Descripcion', 45);
+            $table->string('Categoria', 45);
+	    $table->timestamps();
         });
     }
 

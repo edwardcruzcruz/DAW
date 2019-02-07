@@ -20,12 +20,13 @@ class CreateUsuarioTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('idUsuario');
-            $table->string('User', 45)->nullable()->default(null);
-            $table->string('Password', 45)->nullable()->default(null);
+	    $table->increments('id');
+            $table->string('CI',10);
+            $table->string('username',100)->unique();
+            $table->string('password');
+	    $table->rememberToken();
+	    $table->timestamps();
         });
     }
 

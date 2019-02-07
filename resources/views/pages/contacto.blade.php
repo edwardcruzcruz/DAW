@@ -25,23 +25,22 @@
                  <h4><strong>Mantengase conectado</strong></h4>
             
                  {!!Form::open(['route'=>'mail.store','method'=>'POST'])!!}
-                            <div class="col-md-12 contact-left form-group">
-                                {!!Form::text('name',null,array('class'=>'form-control','placeholder' => 'Nombres/Apellidos'))!!}
-                            </div>
-                            <div class="col-md-12 contact-right form-group">
-                                {!!Form::text('email',null,array('class'=>'form-control','placeholder' => 'E-mail'))!!}
-                            </div>
-                            <div class="col-md-12 contact-right form-group">
+                        <div class="col-md-12 contact-left form-group">
+                                {!!Form::text('name',null,array('class'=>'form-control','placeholder' => 'Nombres/Apellidoss'))!!}
+                        </div>
+                        <div class="col-md-12 contact-left form-group">
+                                 {!!Form::text('email',null,array('class'=>'form-control','placeholder' => 'E-mail'))!!}
+                        </div>
+                        <div class="col-md-12 contact-left form-group">
                                 {!!Form::text('telf',null,array('class'=>'form-control','placeholder' => 'Teléfono'))!!}
-                            </div>
-                            <div class="col-md-12 contact-right form-group">
+                        </div>
+                        <div class="col-md-12 contact-left form-group">
                                 {!!Form::textarea('mensaje',null,array('class'=>'form-control','rows' => 3,'placeholder' => 'Descripción del problema'))!!}
-                            </div>
-                            <div class="col-md-12 contact-right form-group">
+                        </div>
+                         <div class="col-md-12 contact-right form-group">
                                 {!!Form::submit('Enviar', array('class' => 'from-control btn btn-large btn-primary openbutton'))!!}
                                 
-                            </div>
-                            @include('alerts.success')
+                        </div>
                 {!!Form::close()!!}
             </div>
           </div>

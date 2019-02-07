@@ -20,16 +20,14 @@ class CreateAdministradorTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('Ci');
-            $table->string('Nombre', 45)->nullable()->default(null);
-            $table->string('Profesion', 45)->nullable()->default(null);
-            $table->string('Telefono', 45)->nullable()->default(null);
-            $table->string('Correo', 45)->nullable()->default(null);
-            $table->unsignedInteger('idUser')->nullable()->default(null);
-            $table->unsignedInteger('idProyecto')->nullable()->default(null);
+	    $table->increments('id');
+            $table->string('CI', 10);
+	    $table->string('Nombre', 45);
+            $table->string('Profesion', 45);
+            $table->string('Telefono', 45);
+            $table->string('Correo', 45);
+	    $table->timestamps();
         });
     }
 

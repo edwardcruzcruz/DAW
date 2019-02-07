@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Admin;
 
 class administradorTableSeeder extends Seeder
 {
@@ -12,12 +13,12 @@ class administradorTableSeeder extends Seeder
     public function run()
     {
         //
-	DB::table('administrador')->insert([
-	    'CI' => '0986493028',
+	Admin::create(array(
+            'CI' => '0986493028',
             'Nombre' => "Edward Cruz",
             'Profesion' => "Ingenieria en Computacion",
             'Telefono' => "0993849283",
-	    'correo'=> "etcruz@espol",
-        ]);
+	    'correo'=> "etcruz@espol.edu.ec"
+        ));
     }
 }

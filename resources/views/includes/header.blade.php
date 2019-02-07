@@ -28,7 +28,12 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ URL::to('contacto')}}">Contacto</a>
 			</li>
-			
+			<li class="nav-item">
+				<a class="nav-link" href="{{ URL::to('login')}}">Login</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ URL::to('registro')}}">Registrar</a>
+			</li>
 		</ul>
 </div>
 </nav>

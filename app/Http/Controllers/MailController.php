@@ -1,10 +1,9 @@
 <?php
 
-namespace Cinema\Http\Controllers;
-
+namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Cinema\Http\Requests;
-use Cinema\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Mail;
 use Session;
 use Redirect;

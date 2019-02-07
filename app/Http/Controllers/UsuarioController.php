@@ -1,50 +1,26 @@
 <?php
 
-namespace Cinema\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cinema\Http\Requests;
-use Cinema\Http\Requests\UserCreateRequest;
-use Cinema\Http\Requests\UserUpdateRequest;
-use Cinema\Http\Controllers\Controller;
-use Cinema\User;
-use Session;
-use Redirect;
-use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\Usuario;
+
 class UsuarioController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-        $this->middleware('admin');
-        $this->beforeFilter('@find',['only' => ['edit','update','destroy']]);
-    }
-
-    public function find(Route $route){
-        $this->user = User::find($route->getParameter('usuario'));
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $users = User::paginate(2);
-        if($request->ajax()){
-            return response()->json(view('usuario.users',compact('users'))->render());
-        }
-        return view('usuario.index',compact('users'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('usuario.create');
+        //
+	$usuarios=Usuario::all();
+        return response()->json($usuarios, 200);
     }
 
     /**
@@ -53,11 +29,33 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCreateRequest $request)
+    public function store(Request $request)
     {
-        User::create($request->all());
-        Session::flash('message','Usuario Creado Correctamente');
-        return Redirect::to('/usuario');
+        //
+	$rules=array(
+        	'CI' => 'required',
+        	'username' => 'required',
+		'password' => 'required',
+		'remember_token' => 'required'
+    	);
+	$validator = Validator::make($request->toArray(), $rules);
+        if ($validator->fails()) {
+	    #Session::flash('message', 'Error!');
+            echo $request;
+        } else {
+            // store
+	    $usuario = new Usuario;
+            //Declaramos el nombre con el nombre enviado en el request
+            $usuario->CI = $request->CI;
+	    $usuario->username = $request->username;
+	    $usuario->password = $request->password;
+	    $usuario->remember_token = $request->remember_token;
+	    $usuario->save();
+            #Session::flash('message', 'Successfully created nerd!');
+	    #dd($usuario,$login);
+            return response()->json($usuario, 201);
+            #return Redirect::to('indice');
+        }
     }
 
     /**
@@ -69,17 +67,8 @@ class UsuarioController extends Controller
     public function show($id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        return view('usuario.edit',['user'=>$this->user]);
+	$usuario=Usuario::find($id);
+	return response()->json($usuario, 200);
     }
 
     /**
@@ -89,12 +78,32 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->user->fill($request->all());
-        $this->user->save();
-        Session::flash('message','Usuario Actualizado Correctamente');
-        return Redirect::to('/usuario');
+        //
+	$rules=array(
+        	'CI' => 'required',
+        	'username' => 'required',
+		'password' => 'required',
+		'remember_token' => 'required'
+    	);
+        $validator = Validator::make($request->toArray(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            echo $request;
+        } else {
+            // store
+            $usuario=Usuario::find($id);
+	    $usuario->CI = $request->CI;
+	    $usuario->username = $request->username;
+	    $usuario->password = $request->password;
+	    $usuario->remember_token = $request->remember_token;
+	    $usuario->save();
+	    return response()->json($usuario, 200);
+            // redirect
+            #return Redirect::to('indice');
+        }
     }
 
     /**
@@ -105,8 +114,8 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $this->user->delete();
-        Session::flash('message','Usuario Eliminado Correctamente');
-        return Redirect::to('/usuario');
+        //
+	Usuario::find($id)->delete();        
+	return 204;
     }
 }

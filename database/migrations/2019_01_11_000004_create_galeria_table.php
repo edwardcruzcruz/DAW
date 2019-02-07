@@ -20,13 +20,11 @@ class CreateGaleriaTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('idGaleria');
-            $table->string('Descripcion', 45)->nullable()->default(null);
-            $table->string('RutaImagenes', 45)->nullable()->default(null);
-            $table->unsignedInteger('IdAdministrador')->nullable()->default(null);
+            $table->increments('id');
+            $table->string('Descripcion', 45);
+            $table->string('RutaImagenes', 45);
+	    $table->timestamps();
         });
     }
 

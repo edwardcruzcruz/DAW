@@ -20,12 +20,11 @@ class CreateNoticiasTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('idNoricias');
             $table->string('URI', 45)->nullable()->default(null);
-            $table->unsignedInteger('idGaleria')->nullable()->default(null);
+	    $table->timestamps();
         });
     }
 

@@ -20,17 +20,16 @@ class CreateClienteTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('Ci');
-            $table->string('Nombre', 50)->nullable()->default(null);
-            $table->string('Profesion', 50)->nullable()->default(null);
-            $table->string('Telefono', 50)->nullable()->default(null);
-            $table->integer('Edad')->nullable()->default(null);
-            $table->string('NombreEmpresa', 50)->nullable()->default(null);
-            $table->string('Correo', 50)->nullable()->default(null);
-            $table->unsignedInteger('idUser');
+            $table->increments('id');
+	    $table->string('CI', 10);
+            $table->string('Nombre', 100);
+            $table->string('Profesion', 100);
+            $table->string('Telefono', 10);
+            $table->integer('Edad');
+            $table->string('NombreEmpresa', 50);
+            $table->string('Correo', 50);
+	    $table->timestamps();
         });
     }
 

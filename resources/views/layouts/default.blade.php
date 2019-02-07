@@ -6,7 +6,7 @@
 <head>
 
    @include('includes.head')
-
+   @yield('content_head')
 </head>
 
 <body>

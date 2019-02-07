@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class usuario extends Model
+class Solicitud extends Model
 {
     //
     public $timestamps = true;
-    protected $table = 'usuario';
+    protected $table = 'solicitud';
 }

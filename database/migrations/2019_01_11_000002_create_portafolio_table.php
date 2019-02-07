@@ -20,15 +20,14 @@ class CreatePortafolioTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('idPortafolio');
-            $table->string('Descripcion', 45)->nullable()->default(null);
-            $table->string('RutaImagenes', 45)->nullable()->default(null);
-            $table->date('Fecha')->nullable()->default(null);
-            $table->string('Empresa', 45)->nullable()->default(null);
-            $table->string('Materiales', 45)->nullable()->default(null);
+            $table->increments('id');
+            $table->longText('Descripcion',300);
+            $table->string('RutaImagenes', 45);
+            $table->date('Fecha');
+            $table->string('Empresa', 100);
+            $table->string('Materiales', 100);
+	    $table->timestamps();
         });
     }
 

@@ -1,19 +1,6 @@
 @extends('layouts.default')
  
 @section('content')
-	<div class="container-fluid">
-			<div class="row text-center ">
-				<nav class= "col-12">
-				<ul>
-					<li class="list-inline-item" >Noticias</li>
-					<li class="list-inline-item">Eventos</li>
-				</ul>
-			</nav>
-			</div>
-			
-	</div>
-
-
 
 	<div class="container">
 	      	<div class="row justify-content-center mt-5">
@@ -29,7 +16,7 @@
 		                </div>
 		                <!--end of col-->
 		                <div class="col-auto">
-		                    <button class="btn btn-lg btn-success" type="submit">Search</button>
+		                    <button id="boton" class="boton" type="submit">Search</button>
 		                </div>
 		                <!--end of col-->
 		            </div>
@@ -64,5 +51,5 @@
 	  crossorigin="anonymous"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	  /*<script src="{{asset('js/script.js')}}"></script>*/
+	  <script src="{{URL::asset('js/script.js')}}"></script>
 @stop

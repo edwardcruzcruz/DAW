@@ -20,14 +20,12 @@ class CreateReservaTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('idReserva');
-            $table->date('Fecha')->nullable()->default(null);
-            $table->string('Descripcion', 45)->nullable()->default(null);
-            $table->unsignedInteger('idUsuario')->nullable()->default(null);
-            $table->unsignedInteger('idProyecto')->nullable()->default(null);
+            $table->increments('id');
+            $table->date('Fecha');
+            $table->string('Descripcion', 45);
+	    $table->Integer('Estado');//0 pendiecte 1 aprobado y envia correo
+	    $table->timestamps();
         });
     }
 
