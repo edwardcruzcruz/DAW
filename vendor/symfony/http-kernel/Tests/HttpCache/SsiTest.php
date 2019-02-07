@@ -40,10 +40,10 @@ class SsiTest extends TestCase
 
         $request = Request::create('/');
         $ssi->addSurrogateCapability($request);
-        $this->assertEquals('symfony2="SSI/1.0"', $request->headers->get('Surrogate-Capability'));
+        $this->assertEquals('symfony="SSI/1.0"', $request->headers->get('Surrogate-Capability'));
 
         $ssi->addSurrogateCapability($request);
-        $this->assertEquals('symfony2="SSI/1.0", symfony2="SSI/1.0"', $request->headers->get('Surrogate-Capability'));
+        $this->assertEquals('symfony="SSI/1.0", symfony="SSI/1.0"', $request->headers->get('Surrogate-Capability'));
     }
 
     public function testAddSurrogateControl()
@@ -198,10 +198,10 @@ class SsiTest extends TestCase
               ->method('getRequest')
               ->will($this->returnValue($request))
         ;
-        if (is_array($response)) {
+        if (\is_array($response)) {
             $cache->expects($this->any())
                   ->method('handle')
-                  ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $response))
+                  ->will($this->onConsecutiveCalls(...$response))
             ;
         } else {
             $cache->expects($this->any())

@@ -43,7 +43,7 @@ function loadNewsXml() {
             var titulo = $(this).find('titulo').text();
             var imagen = $(this).find('image').text();
             var contenido = $(this).find('descripcion').text();
-            
+  	              
             addNew(titulo, contenido, imagen)
 
           });
@@ -59,13 +59,12 @@ function loadNewsXml() {
 $(document).ready(function(){
   loadNewsXml();
   
-
-  $("button").click(function(e){
-
+  $(".boton").click(function(){
+    console.log( "hey!" );
     var texto = $('input#buscador').val();
     
     if(texto.length != 0) {
-      
+      console.log( "ready!" );
       var noticias = $('#noticias .card-body');
       $('#noticias .card-body').filter(function(index){
         
@@ -79,6 +78,7 @@ $(document).ready(function(){
       });
 
     } else {
+      console.log( "Not ready!" );
       $('#noticias .card-body').each(function(){
         $(this).show();
       });

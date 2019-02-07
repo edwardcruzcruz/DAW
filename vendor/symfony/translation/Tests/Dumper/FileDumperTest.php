@@ -12,18 +12,14 @@
 namespace Symfony\Component\Translation\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Dumper\FileDumper;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class FileDumperTest extends TestCase
 {
-    public function testDumpBackupsFileIfExisting()
+    public function testDump()
     {
         $tempDir = sys_get_temp_dir();
-        $file = $tempDir.'/messages.en.concrete';
-        $backupFile = $file.'~';
-
-        @touch($file);
 
         $catalogue = new MessageCatalogue('en');
         $catalogue->add(array('foo' => 'bar'));
@@ -31,10 +27,33 @@ class FileDumperTest extends TestCase
         $dumper = new ConcreteFileDumper();
         $dumper->dump($catalogue, array('path' => $tempDir));
 
-        $this->assertFileExists($backupFile);
+        $this->assertFileExists($tempDir.'/messages.en.concrete');
 
-        @unlink($file);
-        @unlink($backupFile);
+        @unlink($tempDir.'/messages.en.concrete');
+    }
+
+    public function testDumpIntl()
+    {
+        $tempDir = sys_get_temp_dir();
+
+        $catalogue = new MessageCatalogue('en');
+        $catalogue->add(array('foo' => 'bar'), 'd1');
+        $catalogue->add(array('bar' => 'foo'), 'd1+intl-icu');
+        $catalogue->add(array('bar' => 'foo'), 'd2+intl-icu');
+
+        $dumper = new ConcreteFileDumper();
+        @unlink($tempDir.'/d2.en.concrete');
+        $dumper->dump($catalogue, array('path' => $tempDir));
+
+        $this->assertStringEqualsFile($tempDir.'/d1.en.concrete', 'foo=bar');
+        @unlink($tempDir.'/d1.en.concrete');
+
+        $this->assertStringEqualsFile($tempDir.'/d1+intl-icu.en.concrete', 'bar=foo');
+        @unlink($tempDir.'/d1+intl-icu.en.concrete');
+
+        $this->assertFileNotExists($tempDir.'/d2.en.concrete');
+        $this->assertStringEqualsFile($tempDir.'/d2+intl-icu.en.concrete', 'bar=foo');
+        @unlink($tempDir.'/d2+intl-icu.en.concrete');
     }
 
     public function testDumpCreatesNestedDirectoriesAndFile()
@@ -59,9 +78,9 @@ class FileDumperTest extends TestCase
 
 class ConcreteFileDumper extends FileDumper
 {
-    protected function format(MessageCatalogue $messages, $domain)
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
     {
-        return '';
+        return http_build_query($messages->all($domain), '', '&');
     }
 
     protected function getExtension()

@@ -35,21 +35,11 @@ class ResponseHeaderBag extends HeaderBag
         if (!isset($this->headers['cache-control'])) {
             $this->set('Cache-Control', '');
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        $cookies = '';
-        foreach ($this->getCookies() as $cookie) {
-            $cookies .= 'Set-Cookie: '.$cookie."\r\n";
+        /* RFC2616 - 14.18 says all Responses need to have a Date */
+        if (!isset($this->headers['date'])) {
+            $this->initDate();
         }
-
-        ksort($this->headerNames);
-
-        return parent::__toString().$cookies;
     }
 
     /**
@@ -59,7 +49,22 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function allPreserveCase()
     {
-        return array_combine($this->headerNames, $this->headers);
+        $headers = array();
+        foreach ($this->all() as $name => $value) {
+            $headers[isset($this->headerNames[$name]) ? $this->headerNames[$name] : $name] = $value;
+        }
+
+        return $headers;
+    }
+
+    public function allPreserveCaseWithoutCookies()
+    {
+        $headers = $this->allPreserveCase();
+        if (isset($this->headerNames['set-cookie'])) {
+            unset($headers[$this->headerNames['set-cookie']]);
+        }
+
+        return $headers;
     }
 
     /**
@@ -74,6 +79,23 @@ class ResponseHeaderBag extends HeaderBag
         if (!isset($this->headers['cache-control'])) {
             $this->set('Cache-Control', '');
         }
+
+        if (!isset($this->headers['date'])) {
+            $this->initDate();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function all()
+    {
+        $headers = parent::all();
+        foreach ($this->getCookies() as $cookie) {
+            $headers['set-cookie'][] = (string) $cookie;
+        }
+
+        return $headers;
     }
 
     /**
@@ -81,13 +103,26 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function set($key, $values, $replace = true)
     {
-        parent::set($key, $values, $replace);
-
         $uniqueKey = str_replace('_', '-', strtolower($key));
+
+        if ('set-cookie' === $uniqueKey) {
+            if ($replace) {
+                $this->cookies = array();
+            }
+            foreach ((array) $values as $cookie) {
+                $this->setCookie(Cookie::fromString($cookie));
+            }
+            $this->headerNames[$uniqueKey] = $key;
+
+            return;
+        }
+
         $this->headerNames[$uniqueKey] = $key;
 
+        parent::set($key, $values, $replace);
+
         // ensure the cache-control header has sensible defaults
-        if (in_array($uniqueKey, array('cache-control', 'etag', 'last-modified', 'expires'))) {
+        if (\in_array($uniqueKey, array('cache-control', 'etag', 'last-modified', 'expires'), true)) {
             $computed = $this->computeCacheControlValue();
             $this->headers['cache-control'] = array($computed);
             $this->headerNames['cache-control'] = 'Cache-Control';
@@ -100,13 +135,23 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function remove($key)
     {
-        parent::remove($key);
-
         $uniqueKey = str_replace('_', '-', strtolower($key));
         unset($this->headerNames[$uniqueKey]);
 
+        if ('set-cookie' === $uniqueKey) {
+            $this->cookies = array();
+
+            return;
+        }
+
+        parent::remove($key);
+
         if ('cache-control' === $uniqueKey) {
             $this->computedCacheControl = array();
+        }
+
+        if ('date' === $uniqueKey) {
+            $this->initDate();
         }
     }
 
@@ -129,6 +174,7 @@ class ResponseHeaderBag extends HeaderBag
     public function setCookie(Cookie $cookie)
     {
         $this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
+        $this->headerNames['set-cookie'] = 'Set-Cookie';
     }
 
     /**
@@ -153,6 +199,10 @@ class ResponseHeaderBag extends HeaderBag
                 unset($this->cookies[$domain]);
             }
         }
+
+        if (empty($this->cookies)) {
+            unset($this->headerNames['set-cookie']);
+        }
     }
 
     /**
@@ -160,13 +210,13 @@ class ResponseHeaderBag extends HeaderBag
      *
      * @param string $format
      *
-     * @return array
+     * @return Cookie[]
      *
      * @throws \InvalidArgumentException When the $format is invalid
      */
     public function getCookies($format = self::COOKIES_FLAT)
     {
-        if (!in_array($format, array(self::COOKIES_FLAT, self::COOKIES_ARRAY))) {
+        if (!\in_array($format, array(self::COOKIES_FLAT, self::COOKIES_ARRAY))) {
             throw new \InvalidArgumentException(sprintf('Format "%s" invalid (%s).', $format, implode(', ', array(self::COOKIES_FLAT, self::COOKIES_ARRAY))));
         }
 
@@ -197,56 +247,15 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function clearCookie($name, $path = '/', $domain = null, $secure = false, $httpOnly = true)
     {
-        $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly));
+        $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly, false, null));
     }
 
     /**
-     * Generates a HTTP Content-Disposition field-value.
-     *
-     * @param string $disposition      One of "inline" or "attachment"
-     * @param string $filename         A unicode string
-     * @param string $filenameFallback A string containing only ASCII characters that
-     *                                 is semantically equivalent to $filename. If the filename is already ASCII,
-     *                                 it can be omitted, or just copied from $filename
-     *
-     * @return string A string suitable for use as a Content-Disposition field-value
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @see RFC 6266
+     * @see HeaderUtils::makeDisposition()
      */
     public function makeDisposition($disposition, $filename, $filenameFallback = '')
     {
-        if (!in_array($disposition, array(self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE))) {
-            throw new \InvalidArgumentException(sprintf('The disposition must be either "%s" or "%s".', self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE));
-        }
-
-        if ('' == $filenameFallback) {
-            $filenameFallback = $filename;
-        }
-
-        // filenameFallback is not ASCII.
-        if (!preg_match('/^[\x20-\x7e]*$/', $filenameFallback)) {
-            throw new \InvalidArgumentException('The filename fallback must only contain ASCII characters.');
-        }
-
-        // percent characters aren't safe in fallback.
-        if (false !== strpos($filenameFallback, '%')) {
-            throw new \InvalidArgumentException('The filename fallback cannot contain the "%" character.');
-        }
-
-        // path separators aren't allowed in either.
-        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\') || false !== strpos($filenameFallback, '/') || false !== strpos($filenameFallback, '\\')) {
-            throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
-        }
-
-        $output = sprintf('%s; filename="%s"', $disposition, str_replace('"', '\\"', $filenameFallback));
-
-        if ($filename !== $filenameFallback) {
-            $output .= sprintf("; filename*=utf-8''%s", rawurlencode($filename));
-        }
-
-        return $output;
+        return HeaderUtils::makeDisposition((string) $disposition, (string) $filename, (string) $filenameFallback);
     }
 
     /**
@@ -260,7 +269,7 @@ class ResponseHeaderBag extends HeaderBag
     protected function computeCacheControlValue()
     {
         if (!$this->cacheControl && !$this->has('ETag') && !$this->has('Last-Modified') && !$this->has('Expires')) {
-            return 'no-cache';
+            return 'no-cache, private';
         }
 
         if (!$this->cacheControl) {
@@ -279,5 +288,12 @@ class ResponseHeaderBag extends HeaderBag
         }
 
         return $header;
+    }
+
+    private function initDate()
+    {
+        $now = \DateTime::createFromFormat('U', time());
+        $now->setTimezone(new \DateTimeZone('UTC'));
+        $this->set('Date', $now->format('D, d M Y H:i:s').' GMT');
     }
 }
