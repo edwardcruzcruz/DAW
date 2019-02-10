@@ -2,7 +2,6 @@
 <link href="<?php echo e(asset('css/style5.css')); ?>" rel="stylesheet">
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<a align="left" href="/logout">Cerrar sesión.</a>
 
 <div id="cuerpo" class="container bootstrap snippet">
 
@@ -12,9 +11,8 @@
   			<br>
               
   			<div class="row">
-		  		<div id="user" class="col-sm-3"><h1>Bienvenido <?php echo e(Session::get('usuario.Nombre','No existe sesion')); ?></h1></div>
+		  		<div id="user" class="col-sm-3"><h1>Bienvenido <?php echo e(Session::get('usuario.0.Nombre','No existe sesion')); ?></h1></div>
 		    </div>
-
 	      	<div class="text-center">
 		        <img id="profile-img" class="profile-img-card" src="<?php echo e(asset('imagenes/bgcolor.jpg')); ?>">
 	            <p id="profile-name" class="profile-name-card">Cambiar tu foto de perfil</p>
@@ -32,8 +30,7 @@
           	<br>
 
 			<ul class="list-group">
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> 12</li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> <?php echo e(count(Session::get('proyectos'))); ?></li>
 			</ul> 
              
             <br>
@@ -58,78 +55,62 @@
 
 	            <div class="tab-pane active" id="home">
 	            	<br>
-	                
-					<form class="form" action="##" method="post" id="registrationForm">
 
+
+<?php echo e(Form::model(Session::get('usuario.0'), array('url' => array('updateAdmin', Session::get('usuario.0.id')), 'method' => 'PUT'))); ?>	
 						<div class="form-group">
 						  <div class="col-xs-6">
-						      <label for="first_name"><h4>Nombre</h4></label>
-						      <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Nombre" title="enter your first name if any.">
+						      <?php echo e(Form::label('CI', 'Cedula de Identidad')); ?>
+
+        <?php echo e(Form::text('CI', Input::old('CI'), array('class' => 'form-control'))); ?>
+
 						  </div>
 						</div>
 
 						<div class="form-group">
 						  <div class="col-xs-6">
-						    <label for="last_name"><h4>Apellido</h4></label>
-						      <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellido" title="enter your last name if any.">
+						      <?php echo e(Form::label('Nombre', 'Nombre')); ?>
+
+        <?php echo e(Form::text('Nombre', Input::old('Nombre'), array('class' => 'form-control'))); ?>
+
 						  </div>
 						</div>
 
 						<div class="form-group">
 						  <div class="col-xs-6">
-						      <label for="phone"><h4>Telefono</h4></label>
-						      <input type="text" class="form-control" name="phone" id="phone" placeholder="04 2211111" title="enter your phone number if any.">
+						      <?php echo e(Form::label('Profesion', 'Profesion')); ?>
+
+        <?php echo e(Form::text('Profesion', Input::old('Profesion'), array('class' => 'form-control'))); ?>
+
 						  </div>
 						</div>
 
 						<div class="form-group">
 						  <div class="col-xs-6">
-						     <label for="mobile"><h4>Telefono Movil</h4></label>
-						      <input type="text" class="form-control" name="mobile" id="mobile" placeholder="+593 900000000" title="enter your mobile number if any.">
+						      <?php echo e(Form::label('Telefono', 'Telefono')); ?>
+
+        <?php echo e(Form::text('Telefono', Input::old('Telefono'), array('class' => 'form-control'))); ?>
+
 						  </div>
 						</div>
 
 
 						<div class="form-group"> 
 							<div class="col-xs-6">
-						      <label for="email"><h4>Email</h4></label>
-						      <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+						      <?php echo e(Form::label('Correo', 'Correo')); ?>
+
+<?php echo e(Form::text('Correo', Input::old('Correo'), array('class' => 'form-control'))); ?>
+
 						  </div>
 						</div>
 
 
-						<div class="form-group">
-						  <div class="col-xs-6">
-						      <label for="email"><h4>Direción</h4></label>
-						      <input type="email" class="form-control" id="location" placeholder="somewhere" title="ingrese una dirección>
-						  </div>
-						</div>
-
-						<div class="form-group">
-						  <div class="col-xs-6">
-						      <label for="password"><h4>Contraseña</h4></label>
-						      <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" title="enter your password.">
-						  </div>
-						</div>
+				    <?php echo e(Form::submit('Guardar', array('class' => 'btn btn-primary'))); ?>
 
 
-						<div class="form-group">
-						  <div class="col-xs-6">
-						    <label for="password2"><h4>Verificar Contraseña</h4></label>
-						      <input type="password" class="form-control" name="password2" id="password2" placeholder="Contraseña" title="enter your password2.">
-						  </div>
-						</div>
+<?php echo e(Form::close()); ?>
 
 
-						<div class="form-group">
-						   <div class="col-xs-12">
-						        <br>
-						      	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Guardar</button>
-						       	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-						    </div>
-						</div>
-
-					</form>
 	            </div>
   
     		</div>
@@ -150,4 +131,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.default', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('layouts.defaultAdmin', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

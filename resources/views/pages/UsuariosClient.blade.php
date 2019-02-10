@@ -13,7 +13,7 @@
     </div>
 </nav>
 
-<h1>Todas los Proyectos</h1>
+<h1>Todas los Clientes</h1>
 
 <!-- will be used to show any messages -->
 @if (Session::has('message'))
@@ -23,21 +23,23 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <td>Proyecto</td>
-            <td>Objetivo</td>
-            <td>Descripcion</td>
-            <td>Categoria</td>
-            <td>Fecha</td>
-	    <td>Materiales</td>
+            <td>CI</td>
+            <td>Nombre</td>
+            <td>Profesion</td>
+            <td>Telefono</td>
+            <td>Edad</td>
+	    <td>Nombre de la Empresa o Institución</td>
+	    <td>Correo</td>
         </tr>
     </thead>
-    <tbody id="proyectos">
+    <tbody id="clientes">
+    
     </tbody>
 </table>
 
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="{{URL::asset('js/func.js')}}"></script>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{URL::asset('js/funcCliente.js')}}"></script>
 </body>
 </html>

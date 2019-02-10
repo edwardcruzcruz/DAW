@@ -54,4 +54,8 @@ class DataUserController extends Controller
     {
 	return view('pages/index');
     }
+    public function mostrarClientes()
+    {
+	return view('pages/UsuariosClient');
+    }
 }

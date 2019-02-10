@@ -17,17 +17,6 @@
                     </div>
                     
                     
-                    <div class="row">
-                        <div class="col-12">
-                            <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
-                                <li class="active col-12">
-                                    <a href="{{ URL::to('/solicitud')}}">
-                                        <i class="fa fa-inbox"></i> Proyectos Pendientes  <span class="label pull-right">{{count(Session::get('solicitudes'))}}</span>
-                                    </a>
-                                </li>
-                            </ul><!-- /.nav -->
-                        </div>
-                    </div>
                     
                     
                     
@@ -40,7 +29,7 @@
                                 
                         <div class="col-12">
                             <ul class="list-group">
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> {{count(Session::get('proyectos'))}}</li>
+                            <li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> 3</li>
                             </ul>
                         </div>
                         <br>
@@ -58,26 +47,10 @@
                                 
                                                 
                 <div class="col-sm-9">
-
+			<h5 align="center">Solicitudes en espera</h5>
                 	<table class="table table-inbox table-hover">
-                            <tbody>
-			    @foreach(Session::get('solicitudes') as $solicitud)
-                              <tr class="">
-                              	  <td class="view-message dont-show">{{$solicitud->Nombre}} </td>
-                                  <td class="view-message"><h5>{{$solicitud->Titulo}}</h5><br><p>{{$solicitud->Descripcion}}</p></td>
-                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                  <td class="view-message text-right">{{$solicitud->Fecha}}</td>
-                                  <td class="inbox-small-cells">
-                                      <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Aceptar</button>
-                                  </td>
-                                  <td class="inbox-small-cells">
-                                      <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Rechazar</button>
-                                  </td>
-                                 
-                              </tr>
-                            @endforeach 
-                            
-                              
+                            <tbody id="solicitudes">
+			    
                           </tbody>
                           </table>
 
@@ -95,5 +68,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{URL::asset('js/funcSolicitudes.js')}}"></script>
 
 @stop

@@ -37,8 +37,8 @@ class ProyectoController extends Controller
         	'Objetivo' => 'required',
 		'Descripcion' => 'required',
 		'Categoria' => 'required',
-		'fecha' => 'required',
-		'materiales' => 'required'
+		'Fecha' => 'required',
+		'Materiales' => 'required'
     	);
 	$validator = Validator::make($request->toArray(), $rules);
         if ($validator->fails()) {
@@ -52,8 +52,8 @@ class ProyectoController extends Controller
 	    $proyecto->Objetivo = $request->Objetivo;
 	    $proyecto->Descripcion = $request->Descripcion;
 	    $proyecto->Categoria = $request->Categoria;
-	    $proyecto->fecha = $request->fecha;
-	    $proyecto->materiales = $request->materiales;
+	    $proyecto->Fecha = $request->Fecha;
+	    $proyecto->Materiales = $request->Materiales;
             //Guardamos el cambio en nuestro modelo
             $proyecto->save();
             #Session::flash('message', 'Successfully created nerd!');
@@ -85,8 +85,8 @@ class ProyectoController extends Controller
         	'Objetivo' => 'required',
 		'Descripcion' => 'required',
 		'Categoria' => 'required',
-		'fecha' => 'required',
-		'materiales' => 'required'
+		'Fecha' => 'required',
+		'Materiales' => 'required'
     	);
         $validator = Validator::make($request->toArray(), $rules);
 
@@ -100,8 +100,8 @@ class ProyectoController extends Controller
 	    $proyecto->Objetivo = $request->Objetivo;
 	    $proyecto->Descripcion = $request->Descripcion;
 	    $proyecto->Categoria = $request->Categoria;
-	    $proyecto->fecha = $request->fecha;
-	    $proyecto->materiales = $request->materiales;
+	    $proyecto->Fecha = $request->Fecha;
+	    $proyecto->Materiales = $request->Materiales;
             $proyecto->save();
 	    return response()->json($proyecto, 200);
             // redirect

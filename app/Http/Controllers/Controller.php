@@ -72,18 +72,9 @@ class Controller extends BaseController
 	]);
 	return redirect('login');
     }
-    public function postRequestClientPropuesta(Request $request)
+    public function contrahash($value)
     {
-        $client = new Client();	
-        $client->post('localhost/api/solicitudes',[
-	    'form_params'=>[
-        	'Nombre' => Session::get('usuario.0.Nombre','No existe sesion'),
-		'Titulo' => $request->Titulo,
-		'Descripcion' => $request->Descripcion,
-		'Fecha' => $request->Fecha,	
-		'Estado' => 'pendiente',		
-	     ]
-	]);
-	return redirect('welcomeClient');
+	return Hash::make($value);
     }
+    
 }

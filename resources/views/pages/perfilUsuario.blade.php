@@ -31,7 +31,7 @@
           	<br>
 
 			<ul class="list-group">
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> {{count(Session::get('proyectos'))}}</li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> 12</li>
 			</ul> 
              
             <br>

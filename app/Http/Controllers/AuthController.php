@@ -8,7 +8,9 @@ use Auth;
 use App\Models\Usuario;
 use App\Models\Cliente;
 use App\Models\Solicitud;
+use App\Models\Servicio;
 use App\Models\Proyecto;
+use App\Models\Portafolio;
 use Redirect;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -45,15 +47,8 @@ class AuthController extends Controller
 	    
 	    if($user->isEmpty()){
 		$user=Usuario::where('username',$userdata['username']) ->join('administrador','usuario.CI','=','administrador.CI')->get();
-		$proyectos=Proyecto::join('servicio','proyecto.id','=','servicio.id')->get();
-		$solicitudes=Solicitud::all();
+
 	    	$isuserAdmin=true;
-		session()->put('solicitudes',$solicitudes);
-		session()->put('proyectos',$proyectos);
-	    }else{
-		
-		$solicitudes=Solicitud::where('Nombre',$user[0]->Nombre)->get();
-		session()->put('solicitudes',$solicitudes);
 	    }
 	    session()->put('usuario',$user);
 	    if($isuserAdmin===true){//vistas como usuario administrador
@@ -71,8 +66,9 @@ class AuthController extends Controller
     {
         Auth::logout();
 	session()->forget('usuario');
-	session()->forget('solicitudes');
-	session()->forget('proyectos');
+	//session()->forget('clientes');
+	//session()->forget('solicitudes');
+	//session()->forget('proyectos');
         return Redirect::to('login')
                     ->with('mensaje_error', 'Tu sesión ha sido cerrada.');
     }
@@ -86,7 +82,8 @@ class AuthController extends Controller
     public function mostrarPrincipal(){
 	if (Auth::check())
         {
-	    return view('pages/proyectoAdmin');
+	    $categorias=Portafolio::pluck('Descripcion','id');
+	    return view('pages/proyectoAdmin',compact('categorias'));
         }
 	return Redirect::to('login');
     }
@@ -118,6 +115,16 @@ class AuthController extends Controller
 	if (Auth::check())
         {
 	    return view('pages/solicitudesClient');
+        }
+	return Redirect::to('login');
+	
+    }
+    public function mostrarEditorProyecto($id){
+	if (Auth::check())
+        {
+	    $data=Proyecto::join('servicio','proyecto.Titulo','=','servicio.Descripcion')->where('proyecto.id',$id)->get();
+	    $categorias=Portafolio::pluck('Descripcion','id');
+	    return view('pages/editor',compact('categorias'))->with('data',$data);
         }
 	return Redirect::to('login');
 	

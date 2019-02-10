@@ -34,9 +34,9 @@ class ServicioController extends Controller
         //
 	$rules=array(
         	'Descripcion' => 'required',
-        	'Ruta_Imagenes' => 'required',
-		'Porcentajes_skills' => 'required',
-		'Personas_encargadas' => 'required'
+        	'RutaImagenes' => 'required',
+		'PorcentajeSkills' => 'required',
+		'PersonasEncargadas' => 'required'
     	);
 	$validator = Validator::make($request->toArray(), $rules);
         if ($validator->fails()) {
@@ -47,9 +47,9 @@ class ServicioController extends Controller
 	    $servicio = new Servicio;
             //Declaramos el nombre con el nombre enviado en el request
             $servicio->Descripcion = $request->Descripcion;
-	    $servicio->Ruta_Imagenes = $request->Ruta_Imagenes;
-	    $servicio->Porcentajes_skills = $request->Porcentajes_skills;
-	    $servicio->Personas_encargadas = $request->Personas_encargadas;
+	    $servicio->RutaImagenes = $request->RutaImagenes;
+	    $servicio->PorcentajeSkills = $request->PorcentajeSkills;
+	    $servicio->PersonasEncargadas = $request->PersonasEncargadas;
 	    $servicio->save();
             #Session::flash('message', 'Successfully created nerd!');
 	    #dd($usuario,$login);
@@ -83,9 +83,9 @@ class ServicioController extends Controller
         //
 	$rules=array(
         	'Descripcion' => 'required',
-        	'Ruta_Imagenes' => 'required',
-		'Porcentajes_skills' => 'required',
-		'Personas_encargadas' => 'required'
+        	'RutaImagenes' => 'required',
+		'PorcentajeSkills' => 'required',
+		'PersonasEncargadas' => 'required'
     	);
         $validator = Validator::make($request->toArray(), $rules);
 
@@ -96,9 +96,9 @@ class ServicioController extends Controller
             // store
             $servicio=Servicio::find($id);
 	    $servicio->Descripcion = $request->Descripcion;
-	    $servicio->Ruta_Imagenes = $request->Ruta_Imagenes;
-	    $servicio->Porcentajes_skills = $request->Porcentajes_skills;
-	    $servicio->Personas_encargadas = $request->Personas_encargadas;
+	    $servicio->RutaImagenes = $request->RutaImagenes;
+	    $servicio->PorcentajeSkills = $request->PorcentajeSkills;
+	    $servicio->PersonasEncargadas = $request->PersonasEncargadas;
 	    $servicio->save();
 	    return response()->json($servicio, 200);
             // redirect

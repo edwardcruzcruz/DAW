@@ -66,7 +66,7 @@ $(document).ready(function(){
     if(texto.length != 0) {
       console.log( "ready!" );
       var noticias = $('#noticias .card-body');
-      $('#noticias .card-body').filter(function(index){
+      $('#noticias .card-body').filter(function(index){//algo
         
         $(this).show();
         
@@ -86,7 +86,8 @@ $(document).ready(function(){
   return false;
     
     
-  })
+  });
+
 });
 
 

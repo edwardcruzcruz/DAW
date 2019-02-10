@@ -37,20 +37,21 @@ Route::get('home', 'Controller@home');
 Route::get('registro', 'Controller@registrar');
 Route::get('perfilUsuario', 'Controller@perfilUsuario');
 Route::get('login', 'AuthController@showLogin');
-Route::post('guardar', 'Controller@postRequestClient');//----
+Route::get('contrahash/{value}', 'Controller@contrahash');//----
 Route::post('login', 'AuthController@postLogin');
 Route::group(array('before' => 'auth'), function()
 {
     // Esta será nuestra ruta de bienvenida.
     Route::get('welcome', 'AuthController@mostrarPrincipal');
+    Route::get('editarProyecto/{id}', 'AuthController@mostrarEditorProyecto');
     Route::get('solicitud', 'AuthController@mostrarSolicitud');
     Route::get('solicitudClient', 'AuthController@mostrarSolicitudCliente');
     Route::get('perfil', 'AuthController@mostrarPerfil');
     Route::get('welcomeClient', 'AuthController@mostrarPrincipalCliente');
     Route::get('perfilClient', 'AuthController@mostrarPerfilCliente');
     Route::get('editar/{id}','DataUserController@editClient');
-    Route::post('guardarPropuesta', 'Controller@postRequestClientPropuesta');
     Route::get('mostrarProyectos','DataUserController@mostrarProyectos');
+    Route::get('mostrarClientes','DataUserController@mostrarClientes');
     Route::put('updateClient/{id}','DataUserController@putRequest');
     Route::put('updateAdmin/{id}','DataUserController@putRequest1');
     // Esta ruta nos servirá para cerrar sesión.

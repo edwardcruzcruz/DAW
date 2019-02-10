@@ -1,6 +1,7 @@
 @extends('layouts.defaultClient')
 @section('content_head')
 <link href="{{ asset('css/style5.css')}}" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 @section('content')
 <div id="cuerpo" class="container bootstrap snippet">
@@ -12,7 +13,7 @@
                     
                     <div class="row">
                         <div id="user" class="col-sm-3"><h1>{{ Session::get('usuario.0.Nombre','No existe sesion') }}</h1></div>
-                        <img id="profile-img" class="profile-img-card" src="./imagenes/bgcolor.jpg">
+                        <img id="profile-img" class="profile-img-card">
                                 
                     </div>
                     
@@ -22,7 +23,7 @@
                             <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
                                 <li class="active col-12">
                                     <a href="{{ URL::to('/solicitudClient')}}">
-                                        <i class="fa fa-inbox"></i>	Proyectos Pendientes  <span class="label pull-right">{{count(Session::get('solicitudes'))}}</span>
+                                        <i class="fa fa-inbox"></i>	Proyectos Pendientes  <span class="label pull-right">12</span>
                                     </a>
                                 </li>
                             </ul><!-- /.nav -->
@@ -48,7 +49,7 @@
                                 
                         <div class="col-12">
                             <ul class="list-group">
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> {{count(Session::get('solicitudes'))}}</li>
+                            <li class="list-group-item text-right"><span class="pull-left"><strong>Proyectos</strong></span> 12</li>
                             <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
                             </ul>
                         </div>
@@ -68,9 +69,9 @@
                                                 
                 <div class="col-sm-9">
 		<h1 align="center">Proponer Proyecto</h1>
-{{ Form::open(['url' => 'guardarPropuesta','method'=>'post']) }}
+{{ Form::open(array('method'=>'post')) }}
 
-
+	{{ Form::hidden('invisible', Session::get('usuario.0.Nombre','No existe sesion')) }}
                     <div class="form-group">
                       {{ Form::label('Titulo', 'Titulo') }}
         {{ Form::text('Titulo', Input::old('Titulo'), array('class' => 'form-control')) }}
@@ -88,7 +89,7 @@
 
                     </div>
 
-{{ Form::submit('Crear un nueva Propuesta', array('class' => 'btn btn-primary')) }}
+{{ Form::submit('Crear un nueva Propuesta', array('class' => 'btn btn-primary','id'=>'enviar')) }}
 
 {{ Form::close() }}
 
@@ -112,5 +113,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{URL::asset('js/funcClientProject.js')}}"></script>
 @stop
