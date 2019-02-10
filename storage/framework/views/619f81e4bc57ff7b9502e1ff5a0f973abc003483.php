@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light   bg-light sticky-top">
 <div class="container-fluid">
-	<a class="navbar-brand"  href="inicio.html">
+	<a class="navbar-brand"  >
 		<img class="logo" src="<?php echo e(asset('img/black 32.png')); ?>">
 	</a>
 
@@ -11,6 +11,9 @@
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
 				<a class="nav-link" href="<?php echo e(URL::to('/welcome')); ?>">Proyecto</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="<?php echo e(URL::to('/mostrarClientes')); ?>">Usuarios</a>
 			</li>
 
 			<li class="nav-item">
