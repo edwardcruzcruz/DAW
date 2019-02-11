@@ -1,10 +1,9 @@
 <?php $__env->startSection('content'); ?>
-<div class="col-12  container" id="estadistica"></div>
-<div class="row">
-    <div class="col-12 container">
-        <button class="col-3" onclick="estadistica(<?php echo e($rentas); ?>)">Ver Cantidad Proyectos 2018</button>
-        <button class="col-3" onclick="estadistica(<?php echo e($rentas); ?>)">Usuarios Registrados 2018</button>
-        <button class="col-3" onclick="estadistica(<?php echo e($rentas); ?>)">Cantidad de Proyectos Por Categorias</button>
+<div class="container col-xl-8" id="estadistica">
+    <div class="card card-container"align="center" >
+        <button class="form-group" onclick="estadistica(<?php echo e($rentas); ?>)">Ver Cantidad Proyectos 2018</button>
+        <button class="form-group" onclick="estadistica(<?php echo e($rentas); ?>)">Usuarios Registrados 2018</button>
+        <button class="form-group" onclick="estadistica(<?php echo e($rentas); ?>)">Cantidad de Proyectos Por Categoria</button>
     </div>
 </div>
 
@@ -157,5 +156,4 @@
     };
   </script>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.default', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

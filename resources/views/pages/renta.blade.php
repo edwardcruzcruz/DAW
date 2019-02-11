@@ -1,11 +1,11 @@
 @extends('layouts.default')
+
 @section('content')
-<div class="col-12  container" id="estadistica"></div>
-<div class="row">
-    <div class="col-12 container">
-        <button class="col-3" onclick="estadistica({{ $rentas }})">Ver Cantidad Proyectos 2018</button>
-        <button class="col-3" onclick="estadistica({{ $rentas }})">Usuarios Registrados 2018</button>
-        <button class="col-3" onclick="estadistica({{ $rentas }})">Cantidad de Proyectos Por Categorias</button>
+<div class="container col-xl-8" id="estadistica">
+    <div class="card card-container"align="center" >
+        <button class="form-group" onclick="estadistica({{ $rentas }})">Ver Cantidad Proyectos 2018</button>
+        <button class="form-group" onclick="estadistica({{ $rentas }})">Usuarios Registrados 2018</button>
+        <button class="form-group" onclick="estadistica({{ $rentas }})">Cantidad de Proyectos Por Categoria</button>
     </div>
 </div>
 

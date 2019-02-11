@@ -42,10 +42,9 @@
 
                         </div>
                          <div class="col-md-12 contact-right form-group">
-                                <?php echo Form::submit('Enviar', array('class' => 'from-control btn btn-large btn-primary openbutton')); ?>
-
-                                
+                                <?php echo Form::submit('Enviar', array('class' => 'from-control btn btn-large btn-primary openbutton')); ?>     
                         </div>
+                        <?php echo $__env->make('alerts.success', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php echo Form::close(); ?>
 
             </div>

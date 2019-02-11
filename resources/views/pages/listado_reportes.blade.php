@@ -52,6 +52,7 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
+            
         
         </div><!-- /card-container -->
 </div><!-- /container -->

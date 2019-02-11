@@ -14,9 +14,9 @@ class BookController extends Controller
      */
     public function index()
     {
-       $books = Book::all();
+       /*$books = Book::all();
         return view('books.index',compact('books'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 5);*/
     }
 
     /**
@@ -48,7 +48,7 @@ class BookController extends Controller
         Book::create($request->all());
 
 
-        return redirect()->route('books.index')
+        return redirect()->route('pdf.index')
                         ->with('success','Book created successfully.');
     }
 

@@ -38,9 +38,9 @@
                                 {!!Form::textarea('mensaje',null,array('class'=>'form-control','rows' => 3,'placeholder' => 'Descripción del problema'))!!}
                         </div>
                          <div class="col-md-12 contact-right form-group">
-                                {!!Form::submit('Enviar', array('class' => 'from-control btn btn-large btn-primary openbutton'))!!}
-                                
+                                {!!Form::submit('Enviar', array('class' => 'from-control btn btn-large btn-primary openbutton'))!!}     
                         </div>
+                        @include('alerts.success')
                 {!!Form::close()!!}
             </div>
           </div>

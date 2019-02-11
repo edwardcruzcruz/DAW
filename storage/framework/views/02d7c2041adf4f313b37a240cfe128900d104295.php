@@ -51,6 +51,7 @@
                     <p><?php echo e($message); ?></p>
                 </div>
             <?php endif; ?>
+            
         
         </div><!-- /card-container -->
 </div><!-- /container -->
