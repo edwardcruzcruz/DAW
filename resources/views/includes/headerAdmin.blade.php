@@ -19,7 +19,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ URL::to('/solicitud')}}">Solicitudes</a>
 			</li>
-
+             <li class="nav-item">
+				<a class="nav-link" href="{{ URL::to('/reporte')}}">Reporte</a>
+			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{{ URL::to('/perfil')}}">Perfil</a>
 			</li>

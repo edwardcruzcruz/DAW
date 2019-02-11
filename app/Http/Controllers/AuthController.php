@@ -11,6 +11,7 @@ use App\Models\Solicitud;
 use App\Models\Servicio;
 use App\Models\Proyecto;
 use App\Models\Portafolio;
+
 use Redirect;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -91,6 +92,14 @@ class AuthController extends Controller
 	if (Auth::check())
         {
 	    return view('pages/solicitudesAdmin');
+        }
+	return Redirect::to('login');
+	
+    }
+    public function mostrarReporte(){
+	if (Auth::check())
+        {
+	    return view('pages/listado_reportes');
         }
 	return Redirect::to('login');
 	

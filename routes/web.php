@@ -45,6 +45,7 @@ Route::group(array('before' => 'auth'), function()
     Route::get('welcome', 'AuthController@mostrarPrincipal');
     Route::get('editarProyecto/{id}', 'AuthController@mostrarEditorProyecto');
     Route::get('solicitud', 'AuthController@mostrarSolicitud');
+    Route::get('reporte', 'AuthController@mostrarReporte');
     Route::get('solicitudClient', 'AuthController@mostrarSolicitudCliente');
     Route::get('perfil', 'AuthController@mostrarPerfil');
     Route::get('welcomeClient', 'AuthController@mostrarPrincipalCliente');
@@ -61,3 +62,8 @@ Route::group(array('before' => 'auth'), function()
 
 #Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('mail','MailController');
+Route::get('reportes', 'PdfController@index');
+Route::get('crear_reporte_porpais/{tipo}', 'PdfController@crear_reporte_porpais');
+Route::resource('pdf','PdfController');
+Route::resource('books','BookController');
+

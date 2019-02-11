@@ -1,4 +1,15 @@
 <?php return array (
+  'barryvdh/laravel-dompdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'PDF' => 'Barryvdh\\DomPDF\\Facade',
+    ),
+  ),
   'beyondcode/laravel-dump-server' => 
   array (
     'providers' => 
@@ -22,6 +33,14 @@
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+  ),
+  'jenssegers/mongodb' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Jenssegers\\Mongodb\\MongodbServiceProvider',
+      1 => 'Jenssegers\\Mongodb\\MongodbQueueServiceProvider',
     ),
   ),
   'laravel/nexmo-notification-channel' => 
