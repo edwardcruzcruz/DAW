@@ -43,7 +43,7 @@
                         <p>Gestionadores de proyectos</p>
                     </div>
                     <div class="pull-right">
-                        <a class="btn btn-success" href="{{ route('books.create') }}"> Create New Report</a>
+                        <a class="btn btn-success" href="{{ route('books.create') }}"> Create New Manager</a>
                     </div>
                 </div>
             </div>

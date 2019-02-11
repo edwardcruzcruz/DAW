@@ -1,0 +1,23 @@
+[2019-02-11 01:05:08] laravel.EMERGENCY: Unable to create configured logger. Using emergency logger. {"exception":"[object] (InvalidArgumentException(code: 0): Log [] is not defined. at C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php:168)
+[stacktrace]
+#0 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(102): Illuminate\\Log\\LogManager->resolve(NULL)
+#1 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(90): Illuminate\\Log\\LogManager->get(NULL)
+#2 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(498): Illuminate\\Log\\LogManager->driver()
+#3 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(114): Illuminate\\Log\\LogManager->error('Undefined const...', Array)
+#4 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\app\\Exceptions\\Handler.php(37): Illuminate\\Foundation\\Exceptions\\Handler->report(Object(Symfony\\Component\\Debug\\Exception\\FatalThrowableError))
+#5 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(314): App\\Exceptions\\Handler->report(Object(Symfony\\Component\\Debug\\Exception\\FatalThrowableError))
+#6 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(122): Illuminate\\Foundation\\Http\\Kernel->reportException(Object(Symfony\\Component\\Debug\\Exception\\FatalThrowableError))
+#7 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#8 {main}
+"} 
+[2019-02-11 01:05:08] laravel.ERROR: Undefined constant 'Jenssegers\Mongodb\MongodbServiceProvider' {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Undefined constant 'Jenssegers\\Mongodb\\MongodbServiceProvider' at C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\config\\app.php:178)
+[stacktrace]
+#0 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\LoadConfiguration.php(72): require()
+#1 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\LoadConfiguration.php(39): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->loadConfigurationFiles(Object(Illuminate\\Foundation\\Application), Object(Illuminate\\Config\\Repository))
+#2 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(211): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->bootstrap(Object(Illuminate\\Foundation\\Application))
+#3 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(162): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#4 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(146): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#5 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#6 C:\\xampp7.1\\htdocs\\laravel\\FINAL\\DAW\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#7 {main}
+"} 

@@ -35,6 +35,7 @@ Route::get('galeria', 'Controller@galeria');
 Route::get('contacto', 'Controller@contacto');
 Route::get('home', 'Controller@home');
 Route::get('registro', 'Controller@registrar');
+Route::get('estadistica','RentaController@index');
 Route::get('perfilUsuario', 'Controller@perfilUsuario');
 Route::get('login', 'AuthController@showLogin');
 Route::get('contrahash/{value}', 'Controller@contrahash');//----
